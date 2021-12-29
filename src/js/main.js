@@ -1,38 +1,24 @@
 /* eslint-disable no-console */
 'use strict';
-
 // Recoger los elementos de HTML
 const searchInput = document.querySelector('.js-searchInput');
-//const searchInputValue= searchInput.value;
-
 const searchBtn = document.querySelector('.js-searchBtn');
-
+const containerResults = document.querySelector('.container__result');
 const seriesSearchResults = document.querySelector('.js-seriesResult');
-
 const favoritesList = document.querySelector('.js-favoritesList');
 const resultsList = document.querySelector('.js-resultsList');
-
 const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;
-
 // variables globales
-
 let seriesResults = []; // array para los resultados
 let favourites = []; // array para los favoritos
-
 //               COGER DATOS DEL API           //
-const getApiData = () => {
-  fetch(`${urlApi}${searchInput.value}`)
+const getApiData = (searchInputValue) => {
+  return fetch(`${urlApi}${searchInputValue}`)
     .then((response) => response.json())
-    .then((data) => {
-      // array con la lista de resultados
-      seriesResults = data.results;
-      //   renderResults();
-    });
+    .then((data) => data.results);
   // .catch(error=> console.warn(error.message));
 };
-
 //        MOSTRAR RESULTADOS DE BÚSQUEDA            //
-
 // Función para generar HTML
 const getResultsHtmlCode = (eachResult) => {
   let resultHtmlCode = '';
@@ -49,51 +35,48 @@ const getResultsHtmlCode = (eachResult) => {
   }
   return resultHtmlCode;
 };
-
 // Función para pintar los resultados
-const renderResults = () => {
+const renderResults = (htmlElement, results) => {
   let resultsCode = '';
   // para cada resultado del array
-  for (const eachResult of seriesResults) {
+  for (const eachResult of results) {
     resultsCode += getResultsHtmlCode(eachResult); // le paso el nuevo código que se tiene que generar
   }
-  resultsList.innerHTML += resultsCode;
+  htmlElement.innerHTML += resultsCode;
   // escucho eventos
-  listenGetSearch();
+  // listenGetSearch();
 };
-
-// Escuchar evento para pintar resultados
-const listenGetSearch = (event) => {
-  console.log(event);
+searchBtn.addEventListener('click', function (event) {
   event.preventDefault();
-  const searchTerm = searchInput.value; //.trim();
-
-  // solo si la longitud de lo que introduzca el usuario es mayor de 3, ejecuta la función
+  const searchTerm = searchInput.value;
   if (searchTerm.length >= 3) {
-    resultsList.innerHTML = '';
-    getApiData();
-    renderResults();
+    const listResults = document.createElement('ul');
+    listResults.classList.add('resultsSection__seriesList');
+    listResults.classList.add('js-resultsList');
+    containerResults.innerHTML = '';
+  
+    getApiData(searchTerm).then(results => {
+      renderResults(listResults, results);
+      containerResults.appendChild(listResults);
+    });
   } else {
     //si no...
-    resultsList.innerHTML = '';
-    seriesSearchResults.innerHTML = `
-    <h2 class="resultsSection__seriesTitle">Resultados</h2>
+    containerResults.innerHTML = '';
+    containerResults.innerHTML = `
     <p> Debes introducir una búqueda válida </p>
   `; // debe introducir una búsqueda válida
   }
-  // renderResults();
-};
+});
 
+// Escuchar evento para pintar resultados
 // añadir a la lista de favoritos el elemento que coincide con el title clickado
 const addFavourite = (ev) => {
   const selectSerieTitle = ev.currenTarget.dataset.title;
   console.log(selectSerieTitle);
-
   // buscar en los resultados el elemento que coincide con el title clickado
   let foundFavourite = favourites.find(
     (favourite) => favourite.title === selectSerieTitle
   );
-
   // si no lo he encontrado en la lista de favoritos
   if (foundFavourite === undefined) {
     let foundSerie = seriesResults.find(
@@ -113,7 +96,6 @@ const addFavourite = (ev) => {
   renderResults();
   //renderFavourites();// pintar los favoritos
 };
-
 // Escuchar evento click en resultados: 1º-crear clase para los resultados
 const listenAddResultsToFavourites = () => {
   const liResults = document.querySelectorAll('.js-newLiElement');
@@ -123,39 +105,32 @@ const listenAddResultsToFavourites = () => {
   }
   // addFavourite();
 };
-
 listenAddResultsToFavourites();
 //               HACER FAVORITOS            //
-
 const getFavouriteHtmlCode = (favourite) => {
   let favouriteCode = '';
   favouriteCode += `<li class= "selectSerie">
                        <img src='${favourite.image_url}' alt='${favourite.title}'>
                         <h2 data-title= "title">${favourite.title}</h2>  
                     </li>
-
     `;
   return favouriteCode;
 };
-
 //     Guardar en localStorage     //
 const setInLocalStorage = () => {
   // guardar los favoritos
   const stringifyFavourites = JSON.stringify(favourites); // pasar el objeto a cadena de  texto
   localStorage.setItem('favourites', stringifyFavourites);
 };
-
 // Pintar favoritos
 const renderFavourites = () => {
   favoritesList.innerHTML = ''; // limpiamos
   for (const favourite of favourites) {
     favoritesList.innerHTML += getFavouriteHtmlCode(favourite);
   }
-  addFavourite();
+  // addFavourite();
 };
-
 // Listener para el botón de buscar
-searchBtn.addEventListener('click', listenGetSearch);
-
+// searchBtn.addEventListener('click', listenGetSearch);
 // start app
 renderFavourites();
