@@ -6,7 +6,7 @@ const searchBtn = document.querySelector('.js-searchBtn');
 const containerResults = document.querySelector('.container__result');
 const seriesSearchResults = document.querySelector('.js-seriesResult');
 const favoritesList = document.querySelector('.js-favoritesList');
-const resultsList = document.querySelector('.js-resultsList');
+//const resultsList = document.querySelector('.js-resultsList');
 const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;
 // variables globales
 let seriesResults = []; // array para los resultados
