@@ -1,5 +1,28 @@
 .main{
     margin-top: 30px;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-around;
+
+    .resultsSection{
+        border: 1px solid aquamarine;
+        padding: 10px 20px;
+        width: 75%;
+        height: 65vh;
+        display: flex;
+        flex-direction: column;
+        
+
+        &__seriesTitle{
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        &__seriesList{
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
 }

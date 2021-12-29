@@ -1,6 +1,13 @@
 @import 'core/variables';
 @import 'core/reset';
+@import 'core/jsStyles';
 @import 'layout/header';
 @import 'layout/mainSection';
 @import 'layout/footer';
 @import 'pages/index';
+
+.body{
+    font-family: 'Roboto';
+    background-color: rgb(25, 25, 27);
+    color: white;
+}
