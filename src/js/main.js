@@ -23,14 +23,14 @@ const getApiData = (searchInputValue) => {
 const getResultsHtmlCode = (eachResult) => {
   let resultHtmlCode = '';
   if (eachResult.image_url === null) {
-    resultHtmlCode += `  <li class= 'js-newLiElement'>
+    resultHtmlCode += `  <li data-name= "${eachResult.title}" class= 'js-newLiElement'>
                           <img src='https://via.placeholder.com/210x295/ffffff/666666/?text=${eachResult.title}'; alt='${eachResult.title}'>
-                          <h2 data-title= "${eachResult.title}">${eachResult.title}</h2>  
+                          <h2>${eachResult.title}</h2>  
                         </li>`;
   } else {
-    resultHtmlCode += ` <li class= 'js-newLiElement'>
+    resultHtmlCode += ` <li data-name= "${eachResult.title}" class= 'js-newLiElement'>
                         <img src='${eachResult.image_url}' alt='${eachResult.title}'>
-                        <h2 data-title= "${eachResult.title}">${eachResult.title}</h2>  
+                        <h2>${eachResult.title}</h2>  
                     </li>`;
   }
   return resultHtmlCode;
@@ -54,17 +54,15 @@ searchBtn.addEventListener('click', function (event) {
     listResults.classList.add('resultsSection__seriesList');
     listResults.classList.add('js-resultsList');
     containerResults.innerHTML = '';
-  
+
     getApiData(searchTerm).then(results => {
       renderResults(listResults, results);
       containerResults.appendChild(listResults);
     });
-  } else {
-    //si no...
+
+  } else { //si no...
     containerResults.innerHTML = '';
-    containerResults.innerHTML = `
-    <p> Debes introducir una búqueda válida </p>
-  `; // debe introducir una búsqueda válida
+    containerResults.innerHTML = `<p> Debes introducir una búqueda válida </p>`; // debe introducir una búsqueda válida
   }
 });
 
