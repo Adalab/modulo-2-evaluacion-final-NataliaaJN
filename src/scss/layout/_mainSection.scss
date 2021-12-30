@@ -14,14 +14,31 @@
         
 
         &__seriesTitle{
+            font-family: 'Bangers', cursive;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 8px;
+            font-size: 30px;
         }
 
         &__seriesList{
             list-style-type: none;
             display: flex;
             flex-wrap: wrap;
+        }
+    }
+
+    .favoritesSection{
+        &__favoritesTitle{
+            font-family: 'Bangers', cursive;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            font-size: 30px;
+        }
+
+        &__favoritesList{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     }
 

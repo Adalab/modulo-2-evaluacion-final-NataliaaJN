@@ -1,60 +1,63 @@
 /* eslint-disable no-console */
 'use strict';
 
-// Recoger los elementos de HTML
-const searchInput = document.querySelector('.js-searchInput');
-const searchBtn = document.querySelector('.js-searchBtn');
-const deleteFavsBtn = document.querySelector('.js-deleteFavsBtn');
+//                      RECOGER LOS ELEMENTOS DE HTML                           //
 
-const containerResults = document.querySelector('.container__result');
-//const seriesSearchResults = document.querySelector('.js-seriesResult');
-//const resultsList = document.querySelector('.js-resultsList');
+const searchInput = document.querySelector('.js-searchInput');           // Input de búsqueda
+const searchBtn = document.querySelector('.js-searchBtn');               // Botón para buscar
+const resetBtn = document.querySelector('.js-resetBtn');                 // Botón para resetear
 
-const favoritesList = document.querySelector('.js-favoritesList');
+const containerResults = document.querySelector('.container__result');   // Contenedor del ul de resultados
 
-const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;
+const favouritesList = document.querySelector('.js-favouritesList');     // ul que contiene la lista de resultados
 
-// variables globales
+const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;               // url de búsqueda de la api
+
+
+//                            VARIABLES GLOBALES                                 //
 let favourites = []; // array para los favoritos
 
-//            GUARDAR EN LOCALSTORAGE          //
+//                                FUNCIONES                                      //
 
-const favouritesOnLocalStorage = 'favouritesList';
+//               GUARDAR EN LOCALSTORAGE                   //
+
+const favouritesOnLocalStorage = 'favouritesList';  // Guardo el nombre clave
 
 const getFavouritesFromLocalStorage = () => {
-  return localStorage.getItem(favouritesOnLocalStorage);
+  return localStorage.getItem(favouritesOnLocalStorage);  // Llamo a los datos guardados por el nombre clave
 };
 
+// Función para guardar los favoritos en el localStorage
 const addFavouriteToLocalStorage = (favouriteToAdd) => {
+  // Creo un objeto con lo que debe contener cada elemento que guardemos en favoritos
   const favouriteObject = {
     id: favouriteToAdd.id,
     src: favouriteToAdd.querySelector('img').src,
     name: favouriteToAdd.querySelector('h2').innerHTML,
   };
-  let favouritesListStorage = JSON.parse(getFavouritesFromLocalStorage());
+  let favouritesListStorage = JSON.parse(getFavouritesFromLocalStorage()); // Paso los datos guardados de string a su forma original
   if (!favouritesListStorage) {
     favouritesListStorage = [];
   }
+  // Añado el objeto al array de favoritos guardados en localStorage
   favouritesListStorage.push(favouriteObject);
-  localStorage.setItem(
-    favouritesOnLocalStorage,
-    JSON.stringify(favouritesListStorage)
-  );
+  localStorage.setItem(favouritesOnLocalStorage, JSON.stringify(favouritesListStorage)); // Cuando añado un favorito, guardo el array de favoritos en localStorage
 };
 
+
+// Función para eliminar favoritos del localStorage
 const removeFavouriteToLocalStorage = (favouriteToRemove) => {
-  let favouritesListStorage = JSON.parse(getFavouritesFromLocalStorage());
-  const index = favouritesListStorage.findIndex(
-    (favourite) => favourite.id === favouriteToRemove.id
-  );
+  let favouritesListStorage = JSON.parse(getFavouritesFromLocalStorage()); // Paso los datos guardados de string a su forma original
+  // Compruebo si la serie ya está en favoritos:
+  // 1º- busco el índice del favorito que coincida con el id del favorito que quiero borrar
+  const index = favouritesListStorage.findIndex(favourite => favourite.id === favouriteToRemove.id);
+  // 2º- si está en el array... (si no está, devuelve -1)
   if (index !== -1) {
-    favouritesListStorage.splice(index, 1);
+    favouritesListStorage.splice(index, 1); // lo elimino de la lista de favoritos
   }
-  localStorage.setItem(
-    favouritesOnLocalStorage,
-    JSON.stringify(favouritesListStorage)
-  );
+  localStorage.setItem(favouritesOnLocalStorage,JSON.stringify(favouritesListStorage)); // Cuando elimino un favorito, vuelvo a guardar el array de favoritos en localStorage
 };
+
 
 //               COGER DATOS DEL API           //
 const getApiData = (searchInputValue) => {
@@ -64,9 +67,10 @@ const getApiData = (searchInputValue) => {
   // .catch(error=> console.warn(error.message));
 };
 
+
 //        MOSTRAR RESULTADOS DE BÚSQUEDA            //
 
-// Función para generar HTML
+// Función para generar el código HTML que debe aparecer para cada resultado
 const getResultsHtmlCode = (eachResult) => {
   let resultHtmlCode = '';
   if (eachResult.image_url === null) {
@@ -93,54 +97,44 @@ const renderResults = (htmlElement, results) => {
   htmlElement.innerHTML += resultsCode;
 };
 
+
+//                  AÑADIR O ELIMINAR FAVORITOS                //
+
+// Función para eliminar favoritos:
 const removeFavourite = (liHtml) => {
-  favoritesList.removeChild(liHtml);
-  liHtml.classList.add('noSelectSerie');
-  removeFavouriteToLocalStorage(liHtml);
+  favouritesList.removeChild(liHtml); // Elimina del ul de favoritos, los hijos li
+  //liHtml.classList.add('noSelectSerie');                            // ***** NO FUNCIONA*******!!
+  removeFavouriteToLocalStorage(liHtml); // Ejecuta la función que elimina un favorito del localStorage
 };
 
-// Añadir a la lista de favoritos
+// Función para añadir favoritos:
 const addFavourite = (liHtml) => {
   //Comprobamos que el nodo no esté en favoritos
   //Convertimos NodeList a Array con el método estático from
-  const indexOnFavourites = Array.from(favoritesList.childNodes).findIndex(
-    (favourite) => favourite.id === liHtml.id
-  );
-  liHtml.style.border = '1px solid aquamarine';
-  liHtml.style.color = 'aquamarine';
+  const indexOnFavourites = Array.from(favouritesList.childNodes).findIndex(favourite => favourite.id === liHtml.id);
+  liHtml.classList.toggle('selected');
 
   if (indexOnFavourites !== -1) {
-    return;
+    return; //si está en favoritos, se sale de la función
   }
 
   //Clonamos el nodo para añadirlo en favoritos
-  const clonedLiHtml = liHtml.cloneNode(true);
-  clonedLiHtml.style.border = 'transparent';
-  clonedLiHtml.style.color = 'white';
-  clonedLiHtml.style.listStyleType = 'none';
+  const clonedLiHtml = liHtml.cloneNode(true); // Clono el resultado (elemento li) creado al hacer una búsqueda
+  clonedLiHtml.classList.add('clonedLiHtmlStyle');
 
-  const contentDeleteButton = document.createTextNode('X');
+
   const deleteButton = document.createElement('button');
-  deleteButton.appendChild(contentDeleteButton);
+  deleteButton.innerHTML= 'X';
   const deleteBtn = clonedLiHtml.appendChild(deleteButton);
-  deleteBtn.style.backgroundColor = 'red';
-  deleteBtn.style.color = 'white';
-  deleteBtn.style.borderRadius = '50%';
-  deleteBtn.style.padding = '5px';
-  deleteBtn.style.cursor = 'pointer';
-  /*
-  clonedLiHtml.classList = '';
-  clonedLiHtml.classList.add('la-clase-para-favoritos');
-  */
+  deleteBtn.classList.add('js-remove-button');
 
 
-  const favouritesLiElem = favoritesList.appendChild(clonedLiHtml);
 
-  addFavouriteToLocalStorage(clonedLiHtml);
+  const favouritesLiElem = favouritesList.appendChild(clonedLiHtml); // A la lista ul de favoritos, le añado como hijo el li clonado
+  addFavouriteToLocalStorage(clonedLiHtml); // Ejecuto la función declarada previamente, para guardarlo en el localStorage
+  favourites.push(favouritesLiElem); // Añado los li al array de favoritos
 
-  favourites.push(favouritesLiElem);
-
-  //Añadir el listener de remover favorito
+  //Añadir el listener de eliminar favorito
   deleteBtn.addEventListener('click', () => removeFavourite(clonedLiHtml));
   liHtml.addEventListener('click', () => removeFavourite(clonedLiHtml));
 };
@@ -177,9 +171,8 @@ searchBtn.addEventListener('click', function (event) {
   }
 });
 
-
-//     LEER DEL LOCALSTORAGE     //
-
+//           PINTAR FAVORITOS GUARDADOS EN LOCALSTORE             //
+// Función para crear el código HTML para los favoritos guardados
 const createLiFromFavouriteObject = (favouriteObject) => {
   const favouriteLi = document.createElement('li');
   favouriteLi.classList.add('js-newLiElement');
@@ -205,26 +198,30 @@ const createLiFromFavouriteObject = (favouriteObject) => {
   return favouriteLi;
 };
 
+
+// Función para pintar los favoritos guardados en localStorage
 const renderFavouritesFromLocalStorage = () => {
-  const favouritesObjectList = JSON.parse(getFavouritesFromLocalStorage());
-  if (favouritesObjectList && favouritesObjectList.length > 0) {
+  const favouritesObjectList = JSON.parse(getFavouritesFromLocalStorage());  // paso el objeto guardado a cadena de texto
+  if (favouritesObjectList && favouritesObjectList.length > 0) {  // si existe el objeto de la lista de favoritos, y hay algo guardado
     favouritesObjectList.forEach((favourite) => {
-      favoritesList.append(createLiFromFavouriteObject(favourite));
+      favouritesList.append(createLiFromFavouriteObject(favourite));
     });
   }
 };
 
-const resetAllFavourites = () => {
-  favourites = [];
+const resetSearchAndResults = () => {
+  containerResults.innerHTML = '';
 };
 
-// LISTENERS
+
+//                                    LISTENERS                                   //
+
 // Evento click en cada resultado mostrado
 for (let resultEl of containerResults.childNodes) {
   resultEl.addEventListener('click', addFavourite);
 }
 
-deleteFavsBtn.addEventListener('click', resetAllFavourites);
+resetBtn.addEventListener('click', resetSearchAndResults);
 
-// start app
+//                                    START APP                                   //
 renderFavouritesFromLocalStorage();

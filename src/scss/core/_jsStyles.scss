@@ -1,24 +1,37 @@
-.noSelectSerie{
-    background-color: transparent;
-    color: white;
+.noSelectSerie {
+  background-color: transparent;
+  color: white;
 }
 
-.collapsed{
+.selected {
+  border: 1px solid aquamarine;
+  color: aquamarine;
+}
+
+.collapsed {
+  display: none;
+}
+
+
+.hidden {
     display: none;
 }
 
-.js-newLiElement{
-    padding: 10px;
-    cursor: pointer;
+.js-newLiElement {
+  padding: 10px;
+  cursor: pointer;
+  list-style-type: none;
+}
+.js-remove-button {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
 }
 
-.hidden{
-    display: none;
-}
-
-.js-remove-button{
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 5px;
+.clonedLiHtmlStyle {
+  border: transparent;
+  color: white;
+  list-style-type: none;
 }
