@@ -1,6 +1,6 @@
-.selectSerie{
-    background-color: aquamarine;
-    color: black;
+.noSelectSerie{
+    background-color: transparent;
+    color: white;
 }
 
 .collapsed{
@@ -10,4 +10,15 @@
 .js-newLiElement{
     padding: 10px;
     cursor: pointer;
+}
+
+.hidden{
+    display: none;
+}
+
+.js-remove-button{
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
 }
