@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
 'use strict';
+
 // Recoger los elementos de HTML
 const searchInput = document.querySelector('.js-searchInput');
 const searchBtn = document.querySelector('.js-searchBtn');
@@ -12,10 +12,6 @@ const favoritesList = document.querySelector('.js-favoritesList');
 
 const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;
 
-
-// variables globales
-let seriesResults = []; // array para los resultados
-let favourites = []; // array para los favoritos
 
 
 //               COGER DATOS DEL API           //
@@ -33,12 +29,12 @@ const getApiData = (searchInputValue) => {
 const getResultsHtmlCode = (eachResult) => {
   let resultHtmlCode = '';
   if (eachResult.image_url === null) {
-    resultHtmlCode += `  <li id= "${eachResult.mal_id}" class= 'js-newLiElement'>
+    resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'js-newLiElement'>
                           <img src='https://via.placeholder.com/210x295/ffffff/666666/?text=${eachResult.title}'; alt='${eachResult.title}'>
                           <h2>${eachResult.title}</h2>  
                         </li>`;
   } else {
-    resultHtmlCode += ` <li id= "${eachResult.mal_id}" class= 'js-newLiElement'>
+    resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'js-newLiElement'>
                         <img src='${eachResult.image_url}' alt='${eachResult.title}'>
                         <h2>${eachResult.title}</h2>  
                     </li>`;
@@ -56,7 +52,42 @@ const renderResults = (htmlElement, results) => {
   htmlElement.innerHTML += resultsCode;
   // escucho eventos
   // listenGetSearch();
+
 };
+
+const removeFavourite = (liHtml) => {
+  favoritesList.removeChild(liHtml);
+};
+
+// Añadir a la lista de favoritos
+const addFavourite = (liHtml) => {
+  //Comprobamos que el nodo no esté en favoritos
+  //Convertimos NodeList a Array con el método estático from
+  const indexOnFavourites = Array.from(favoritesList.childNodes).findIndex(favourite => favourite.id === liHtml.id);
+
+  if (indexOnFavourites !== -1) {
+    return;
+  }
+
+  //Clonamos el nodo para añadirlo en favoritos
+  const clonedLiHtml = liHtml.cloneNode(true);
+  /*
+  clonedLiHtml.classList = '';
+  clonedLiHtml.classList.add('la-clase-para-favoritos');
+  */
+  favoritesList.appendChild(clonedLiHtml);
+
+  //Añadir el listener de remover favorito
+  clonedLiHtml.addEventListener('click', () => removeFavourite(clonedLiHtml));
+};
+
+const addEventListenerToResults = () => {
+  const resultsList = containerResults.querySelector('.js-resultsList');
+  resultsList.childNodes.forEach(result => {
+    result.addEventListener('click', () => addFavourite(result));
+  });
+};
+
 
 // Escuchar evento para pintar resultados
 searchBtn.addEventListener('click', function (event) {
@@ -71,6 +102,8 @@ searchBtn.addEventListener('click', function (event) {
     getApiData(searchTerm).then(results => {
       renderResults(listResults, results);
       containerResults.appendChild(listResults);
+    }).then(() => {
+      addEventListenerToResults();
     });
 
   } else { //si no...
@@ -79,28 +112,7 @@ searchBtn.addEventListener('click', function (event) {
   }
 });
 
-
-
-// Añadir a la lista de favoritos
-
-const addFavourite = (ev) => {
-  console.log(ev.currentTarget);
-  const selectedSerie= parseInt(ev.currentTarget.id);
-
-
-};
-
-
 // Evento click en cada resultado mostrado
-const listenResults= () => {
-  let allResults= document.querySelectorAll('.js-newLiElement');
-  for (const resultEl of allResults){
-    resultEl.addEventListener('click', addFavourite);
-  }
-};
-
-// Delego el listener en el padre (porque los elementos li no existen cuando carga la página)
-// containerResults.addEventListener('click', addFavourite);
-
-
-
+for (let resultEl of containerResults.childNodes){
+  resultEl.addEventListener('click', addFavourite);
+}
