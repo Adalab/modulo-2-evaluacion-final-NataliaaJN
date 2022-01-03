@@ -3,7 +3,7 @@
 
 //                      RECOGER LOS ELEMENTOS DE HTML                           //
 
-const searchIcon = document.querySelector('.js-searchIcon');
+const searchIcon = document.querySelector('.js-searchIcon');             // Icono de lupa para búsqueda
 const searchInput = document.querySelector('.js-searchInput');           // Input de búsqueda
 const searchBtn = document.querySelector('.js-searchBtn');               // Botón para buscar
 const resetBtn = document.querySelector('.js-resetBtn');                 // Botón para resetear
@@ -11,8 +11,8 @@ const resetBtn = document.querySelector('.js-resetBtn');                 // Bot�
 const favouritesSection = document.querySelector('.js-favouritesSection');
 const containerResults = document.querySelector('.js-containerResult');   // Contenedor del ul de resultados
 
-const favouritesCounter = document.querySelector('.js-counter');
-const starIcons = document.querySelectorAll('.js-starIcon');
+const favouritesCounter = document.querySelector('.js-counter');         // Número para contador de favoritos
+const starIcons = document.querySelectorAll('.js-starIcon');             // Icono de estrella
 const favouritesList = document.querySelector('.js-favouritesList');     // ul que contiene la lista de resultados
 
 const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;               // url de búsqueda de la api
@@ -24,6 +24,7 @@ let counter= 0;
 
 //                                FUNCIONES                                      //
 
+//            CONTADOR DE FAVORITOS                         //
 const renderFavouritesCounter = () => {
   favouritesCounter.innerHTML = `${counter}`;
 };
@@ -31,7 +32,7 @@ const renderFavouritesCounter = () => {
 //               GUARDAR EN LOCALSTORAGE                   //
 
 const favouritesOnLocalStorage = 'favouritesList';  // Guardo el nombre clave
-
+// Función para recoger los favoritos guardados en localStorage
 const getFavouritesFromLocalStorage = () => {
   return localStorage.getItem(favouritesOnLocalStorage);  // Llamo a los datos guardados por el nombre clave
 };
@@ -121,15 +122,10 @@ const renderResults = (htmlElement, results) => {
 // Función para eliminar favoritos:
 
 const removeFavourite = (liHtml) => {
-  console.log(liHtml);
   const favouriteListChild= Array.from(favouritesList.childNodes).find(favourite => favourite.id === liHtml.id);
   liHtml.classList.remove('selected');
-  // console.log(JSON.parse(Object.assign({}, favouriteListChild)));
-  //favouritesList.removeChild(Array.prototype.slice.call(favouriteListChild));
-  //console.log(Array.prototype.slice.call(favouriteListChild));
   favouritesList.removeChild(favouriteListChild); // Elimina del ul de favoritos, los hijos li
   removeFavouriteToLocalStorage(liHtml); // Ejecuta la función que elimina un favorito del localStorage
-  liHtml.addEventListener('click', ()=> addFavourite(liHtml));
 };
 
 // Función para añadir favoritos:
@@ -147,14 +143,11 @@ const addFavourite = (liHtml) => {
   const clonedLiHtml = liHtml.cloneNode(true); // Clono el resultado (elemento li) creado al hacer una búsqueda
   clonedLiHtml.classList.add('clonedLiHtmlStyle');
 
-
   const deleteButton = document.createElement('button');
   deleteButton.innerHTML+= `<i class="deleteBtn__crossIcon far fa-times-circle"></i>`;
   const deleteBtn = clonedLiHtml.appendChild(deleteButton);
   deleteBtn.classList.add('deleteBtn');
   deleteBtn.classList.add('js-remove-button');
-
-
 
   const favouritesLiElem = favouritesList.appendChild(clonedLiHtml); // A la lista ul de favoritos, le añado como hijo el li clonado
   addFavouriteToLocalStorage(clonedLiHtml); // Ejecuto la función declarada previamente, para guardarlo en el localStorage
@@ -162,19 +155,22 @@ const addFavourite = (liHtml) => {
 
   //Añadir el listener de eliminar favorito
   deleteBtn.addEventListener('click', () => removeFavourite(clonedLiHtml));
-  liHtml.addEventListener('click', () => removeFavourite(clonedLiHtml));
   counter++;
   renderFavouritesCounter();
+};
+
+const toggleFavourite = (liHtml) =>{
+  if(liHtml.classList.contains('selected')){
+    removeFavourite(liHtml);
+  } else{
+    addFavourite(liHtml);
+  }
 };
 
 const addEventListenerToResults = () => {
   const resultsList = containerResults.querySelector('.js-resultsList');
   resultsList.childNodes.forEach((result) => {
-    if(result.classList.contains('selected')){
-      result.addEventListener('click', () => removeFavourite(result));
-    } else{
-      result.addEventListener('click', () => addFavourite(result));
-    }
+    result.addEventListener('click', ()=> toggleFavourite(result));
   });
 };
 
@@ -259,8 +255,6 @@ const handleClickFavouritesCollapsable = () => {
   resultsSection.classList.toggle('resultsSection');
 };
 
-//if(favouritesSection.classList.contains('favoritesSection'))
-
 
 
 //                                    LISTENERS                                   //
@@ -274,17 +268,10 @@ searchIcon.addEventListener('click', () =>{
   resetBtn.classList.toggle('btnsMobile__btnResetMobile');
 });
 
-// Evento click en cada resultado mostrado
-for (let resultEl of containerResults.childNodes) {
-  resultEl.addEventListener('click', addFavourite);
-}
-
 // Listener en icono estrella para desplegar sección de favoritos
 for (const star of starIcons){
   star.addEventListener('click', handleClickFavouritesCollapsable);
 }
-
-
 
 // Listener para resetear favoritos
 const trashIcon = document.querySelector('.js-trashIcon');
