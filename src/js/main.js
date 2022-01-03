@@ -119,11 +119,17 @@ const renderResults = (htmlElement, results) => {
 //                  AÑADIR O ELIMINAR FAVORITOS                //
 
 // Función para eliminar favoritos:
+
 const removeFavourite = (liHtml) => {
+  console.log(liHtml);
   const favouriteListChild= Array.from(favouritesList.childNodes).find(favourite => favourite.id === liHtml.id);
   liHtml.classList.remove('selected');
+  // console.log(JSON.parse(Object.assign({}, favouriteListChild)));
+  //favouritesList.removeChild(Array.prototype.slice.call(favouriteListChild));
+  //console.log(Array.prototype.slice.call(favouriteListChild));
   favouritesList.removeChild(favouriteListChild); // Elimina del ul de favoritos, los hijos li
   removeFavouriteToLocalStorage(liHtml); // Ejecuta la función que elimina un favorito del localStorage
+  liHtml.addEventListener('click', ()=> addFavourite(liHtml));
 };
 
 // Función para añadir favoritos:
