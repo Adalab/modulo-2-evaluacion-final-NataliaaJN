@@ -4,34 +4,235 @@
 }
 
 .selected {
-  border: 1px solid aquamarine;
-  color: aquamarine;
+  border: 2px solid $mainColor;
+  color: $mainColor;
+  border-radius: 3px;
 }
 
 .collapsed {
   display: none;
 }
 
-
 .hidden {
-    display: none;
+  display: none;
 }
 
-.js-newLiElement {
-  padding: 10px;
-  cursor: pointer;
-  list-style-type: none;
-}
-.js-remove-button {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 5px;
-  cursor: pointer;
+.favouriteLi {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 768px) {
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .favouriteImg {
+    height: 120px;
+  }
+
+  .favouriteName {
+    font-size: 10px;
+  }
 }
 
 .clonedLiHtmlStyle {
-  border: transparent;
+  width: 100px;
+  height: 195px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: transparent;
   color: white;
-  list-style-type: none;
+  border: 0px;
+  margin-right: 15px;
+  
+  @media (min-width: 768px) {
+    flex-direction: row;
+    width: 100%;
+    height: 120px;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 15px;
+    margin-right: 0px;
+  }
+  img {
+    margin-bottom: 2px;
+    // width: 100%;
+    // height: 100%;
+    width: 100px;
+    
+    @media (min-width: 768px) {
+      height: 120px;
+      width: 88px;
+      margin-right: 7px;
+    }
+  }
+
+  h3 {
+    font-size: 10px;
+    margin-right: 5px;
+    margin-bottom: 8px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    @media (min-width: 768px) {
+      font-size: 14px;
+      margin-bottom: 0;
+      overflow-x: visible;
+    }
+  }
+  button {
+    background-color: transparent;
+    border: transparent;
+    i {
+      color: $mainColor;
+      cursor: pointer;
+    }
+  }
+}
+
+.removeHiddenSearchInput {
+  position: relative;
+  top: 65px;
+  left: 15px;
+  // width: 150px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border: 1px transparent;
+  border-radius: 50px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 3px 20px;
+  background-color: rgb(48, 48, 51);
+  color: white;
+
+  &::placeholder {
+    text-align: center;
+    font-size: 12px;
+    color: rgb(143, 144, 146);
+  }
+  @media (min-width: 768px) {
+    width: 100%;
+    top: 0;
+    left: 0px;
+    padding: 3px 40px;
+    margin-bottom: 0px;
+    &::placeholder {
+      font-size: 12px;
+    }
+  }
+}
+
+.resultsSectionIfFavouritesOpen {
+  display: flex;
+  flex-direction: column;
+
+  //border: 1px solid rgb(224, 159, 18);
+  box-shadow: 2px 2px 8px rgb(80, 79, 79);
+  padding: 10px 20px;
+  width: 100%;
+  height: 90vh;
+
+  @media (min-width: 768px) {
+    height: 65vh;
+    width: 60vw;
+    height: 80vh;
+    margin-right: 40px;
+    padding: 10px;
+    padding-right: 2.5rem;
+
+    // margin: 0 50px;
+  }
+  @media (min-width: 1024px) {
+    position: relative;
+    height: 70vh;
+    width: 70vw;
+    margin: 0;
+    margin-right: 40px;
+    // left: -50px;
+    // margin: 0 70px;
+  }
+  @media (min-width: 1200px) {
+    height: 80vh;
+    width: 75vw;
+    padding-right: 3.5rem;
+  }
+}
+
+
+// Cambios en versión móvil
+// Botones
+.btnsMobile {
+  display: flex;
+
+  &__btnSearchMobile {
+    position: relative;
+    height: 50%;
+    background-color: $mainColor;
+    color: white;
+    border: 1px solid $mainColor;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 8px;
+    padding: 3px 8px;
+    margin: 0 5px 0 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+    &:hover {
+      top: -4px;
+      box-shadow: 1px 1px 4px white;
+      padding: 3px 10px;
+    }
+    @media (min-width: 768px) {
+      position: relative;
+      height: 100%;
+      text-transform: uppercase;
+      background-color: $mainColor;
+      color: white;
+      border: 1px solid $mainColor;
+      border-radius: 5px;
+      padding: 3px;
+      margin: 0 10px;
+      font-size: 12px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 14px;
+    }
+  }
+  &__btnResetMobile {
+    background-color: transparent;
+    color: $mainColor;
+    letter-spacing: 1px;
+    font-size: 8px;
+    padding: 3px 8px;
+    border: 1px solid $mainColor;
+    border-radius: 5px;
+    padding: 3px;
+    margin-left: 1px;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 1px 1px 4px $mainColor;
+      background-color: white;
+      color: black;
+      font-weight: bold;
+      margin-left: 0;
+    }
+    @media (min-width: 768px) {
+      background-color: transparent;
+      color: $mainColor;
+      font-size: 12px;
+      letter-spacing: 1px;
+      border: 1px solid $mainColor;
+      border-radius: 5px;
+      padding: 2px 3px;
+      margin-left: 1px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 14px;
+    }
+  }
 }

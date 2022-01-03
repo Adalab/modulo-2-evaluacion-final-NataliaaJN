@@ -1,11 +1,20 @@
 <header class="header headerWrapper">
-  <h1 class="header__title">Buscador de series de anime</h1>
-
-  <form class="header__form js-form">
-    <i class="header__form--searchIcon fas fa-search"></i>
-    <input class="header__form--searchInput js-searchInput" type="text" placeholder="Busca una serie" required>
-    <input class="header__form--btnSearch js-searchBtn" type="submit" value="Buscar">
-    <button class="js-resetBtn">Reset</button>
-  </form>
+  <img class="header__logo" src="./assets/images/AnimeNet.png" alt="Logo AnimeNet">
+  <h1 class="header__title">Buscador de series anime</h1>
+  <section class="header__starAndSearchWrapper">
+    <i class="header__startIcon far fa-star js-starIcon"></i>
+    <i class="header__startIcon2 fas fa-star js-starIcon"></i>
+    <p class="header__counterParagraph"><span class="header__counterParagraph--counter js-counter">0</span></p>
+    <form class="header__form js-form">
+      <div class="header__form--searchContainer">
+        <input class="header__form--searchInput  js-searchInput" type="search" placeholder="Busca una serie" required>
+        <i class="header__form--searchIcon fas fa-search js-searchIcon"></i>
+      </div>
+      <div class="header__form--btns">
+        <input class="header__form--btns--btnSearch js-searchBtn" type="submit" value="Buscar">
+        <button title="Elimina la búsqueda y los resultados" class="header__form--btns--btnReset js-resetBtn">Reset</button>
+      </div>
+    </form>
+  </section>
 
 </header>

@@ -3,12 +3,16 @@
 
 //                      RECOGER LOS ELEMENTOS DE HTML                           //
 
+const searchIcon = document.querySelector('.js-searchIcon');
 const searchInput = document.querySelector('.js-searchInput');           // Input de búsqueda
 const searchBtn = document.querySelector('.js-searchBtn');               // Botón para buscar
 const resetBtn = document.querySelector('.js-resetBtn');                 // Botón para resetear
 
-const containerResults = document.querySelector('.container__result');   // Contenedor del ul de resultados
+const favouritesSection = document.querySelector('.js-favouritesSection');
+const containerResults = document.querySelector('.js-containerResult');   // Contenedor del ul de resultados
 
+const favouritesCounter = document.querySelector('.js-counter');
+const starIcons = document.querySelectorAll('.js-starIcon');
 const favouritesList = document.querySelector('.js-favouritesList');     // ul que contiene la lista de resultados
 
 const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;               // url de búsqueda de la api
@@ -16,8 +20,13 @@ const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;               // url 
 
 //                            VARIABLES GLOBALES                                 //
 let favourites = []; // array para los favoritos
+let counter= 0;
 
 //                                FUNCIONES                                      //
+
+const renderFavouritesCounter = () => {
+  favouritesCounter.innerHTML = `${counter}`;
+};
 
 //               GUARDAR EN LOCALSTORAGE                   //
 
@@ -33,7 +42,7 @@ const addFavouriteToLocalStorage = (favouriteToAdd) => {
   const favouriteObject = {
     id: favouriteToAdd.id,
     src: favouriteToAdd.querySelector('img').src,
-    name: favouriteToAdd.querySelector('h2').innerHTML,
+    name: favouriteToAdd.querySelector('h3').innerHTML,
   };
   let favouritesListStorage = JSON.parse(getFavouritesFromLocalStorage()); // Paso los datos guardados de string a su forma original
   if (!favouritesListStorage) {
@@ -56,6 +65,8 @@ const removeFavouriteToLocalStorage = (favouriteToRemove) => {
     favouritesListStorage.splice(index, 1); // lo elimino de la lista de favoritos
   }
   localStorage.setItem(favouritesOnLocalStorage,JSON.stringify(favouritesListStorage)); // Cuando elimino un favorito, vuelvo a guardar el array de favoritos en localStorage
+  counter--;
+  renderFavouritesCounter();
 };
 
 
@@ -71,17 +82,21 @@ const getApiData = (searchInputValue) => {
 //        MOSTRAR RESULTADOS DE BÚSQUEDA            //
 
 // Función para generar el código HTML que debe aparecer para cada resultado
-const getResultsHtmlCode = (eachResult) => {
+const getResultsHtmlCode = (eachResult, isFavourite) => {
   let resultHtmlCode = '';
   if (eachResult.image_url === null) {
-    resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'js-newLiElement'>
-                          <img src='https://via.placeholder.com/210x295/ffffff/666666/?text=${eachResult.title}'; alt='${eachResult.title}'>
-                          <h2>${eachResult.title}</h2>
+    resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'liResult js-newLiElement ${isFavourite? ' selected': ''}'>
+                          <div class= 'liResult__imgContainer'>
+                            <img class= 'liResult__imgContainer--img' src='https://via.placeholder.com/210x295/ffffff/666666/?text=${eachResult.title}' title='${eachResult.title}' alt='${eachResult.title}'>
+                          </div>
+                          <h3 class= 'liResult__title>${eachResult.title}</h3>
                         </li>`;
   } else {
-    resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'js-newLiElement'>
-                        <img src='${eachResult.image_url}' alt='${eachResult.title}'>
-                        <h2>${eachResult.title}</h2>
+    resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'liResult js-newLiElement${isFavourite? ' selected': ''}'>
+                        <div class= 'liResult__imgContainer'>
+                          <img class= 'liResult__imgContainer--img' src='${eachResult.image_url}' title='${eachResult.title}' alt='${eachResult.title}'>
+                        </div>
+                        <h3>${eachResult.title}</h3>
                     </li>`;
   }
   return resultHtmlCode;
@@ -90,11 +105,14 @@ const getResultsHtmlCode = (eachResult) => {
 // Función para pintar los resultados
 const renderResults = (htmlElement, results) => {
   let resultsCode = '';
+  const favouritesFromLocalStorage= JSON.parse(getFavouritesFromLocalStorage());
   // para cada resultado del array
   for (const eachResult of results) {
-    resultsCode += getResultsHtmlCode(eachResult); // le paso el nuevo código que se tiene que generar
+    const indexOfFavourite= favouritesFromLocalStorage.findIndex(favourite=> parseInt(favourite.id) === eachResult.mal_id);
+    resultsCode += getResultsHtmlCode(eachResult, indexOfFavourite !== -1); // le paso el nuevo código que se tiene que generar
   }
   htmlElement.innerHTML += resultsCode;
+
 };
 
 
@@ -102,8 +120,9 @@ const renderResults = (htmlElement, results) => {
 
 // Función para eliminar favoritos:
 const removeFavourite = (liHtml) => {
-  favouritesList.removeChild(liHtml); // Elimina del ul de favoritos, los hijos li
-  //liHtml.classList.add('noSelectSerie');                            // ***** NO FUNCIONA*******!!
+  const favouriteListChild= Array.from(favouritesList.childNodes).find(favourite => favourite.id === liHtml.id);
+  liHtml.classList.remove('selected');
+  favouritesList.removeChild(favouriteListChild); // Elimina del ul de favoritos, los hijos li
   removeFavouriteToLocalStorage(liHtml); // Ejecuta la función que elimina un favorito del localStorage
 };
 
@@ -115,7 +134,7 @@ const addFavourite = (liHtml) => {
   liHtml.classList.toggle('selected');
 
   if (indexOnFavourites !== -1) {
-    return; //si está en favoritos, se sale de la función
+    return; //si ya está en favoritos, se sale de la función
   }
 
   //Clonamos el nodo para añadirlo en favoritos
@@ -124,8 +143,9 @@ const addFavourite = (liHtml) => {
 
 
   const deleteButton = document.createElement('button');
-  deleteButton.innerHTML= 'X';
+  deleteButton.innerHTML+= `<i class="deleteBtn__crossIcon far fa-times-circle"></i>`;
   const deleteBtn = clonedLiHtml.appendChild(deleteButton);
+  deleteBtn.classList.add('deleteBtn');
   deleteBtn.classList.add('js-remove-button');
 
 
@@ -137,12 +157,18 @@ const addFavourite = (liHtml) => {
   //Añadir el listener de eliminar favorito
   deleteBtn.addEventListener('click', () => removeFavourite(clonedLiHtml));
   liHtml.addEventListener('click', () => removeFavourite(clonedLiHtml));
+  counter++;
+  renderFavouritesCounter();
 };
 
 const addEventListenerToResults = () => {
   const resultsList = containerResults.querySelector('.js-resultsList');
   resultsList.childNodes.forEach((result) => {
-    result.addEventListener('click', () => addFavourite(result));
+    if(result.classList.contains('selected')){
+      result.addEventListener('click', () => removeFavourite(result));
+    } else{
+      result.addEventListener('click', () => addFavourite(result));
+    }
   });
 };
 
@@ -152,7 +178,7 @@ searchBtn.addEventListener('click', function (event) {
   const searchTerm = searchInput.value;
   if (searchTerm.length >= 3) {
     const listResults = document.createElement('ul');
-    listResults.classList.add('resultsSection__seriesList');
+    listResults.classList.add('resultsSection__containerResult--seriesList');
     listResults.classList.add('js-resultsList');
     containerResults.innerHTML = '';
 
@@ -172,24 +198,26 @@ searchBtn.addEventListener('click', function (event) {
 });
 
 //           PINTAR FAVORITOS GUARDADOS EN LOCALSTORE             //
-// Función para crear el código HTML para los favoritos guardados
+// Función para crear el código HTML para los favoritos guardados en localStorage
 const createLiFromFavouriteObject = (favouriteObject) => {
   const favouriteLi = document.createElement('li');
   favouriteLi.classList.add('js-newLiElement');
+  favouriteLi.classList.add('localStorageLi');
   favouriteLi.id = favouriteObject.id;
 
   const img = document.createElement('img');
   img.src = favouriteObject.src;
+  img.classList.add('localStorageLi__favouriteImg');
   favouriteLi.appendChild(img);
 
-  const h2 = document.createElement('h2');
-  h2.innerHTML = favouriteObject.name;
-  favouriteLi.appendChild(h2);
+  const h3 = document.createElement('h3');
+  h3.innerHTML = favouriteObject.name;
+  h3.classList.add('localStorageLi__favouriteName');
+  favouriteLi.appendChild(h3);
 
   const deleteButton = document.createElement('button');
-  //const icon = document.createElement('i');
-  // icon.classList.add('fas fa-cross');
-  deleteButton.innerHTML = 'X';
+  deleteButton.innerHTML += `<i class="localStorageLi__deleteBtn--crossIcon far fa-times-circle"></i>`;
+  deleteButton.classList.add('localStorageLi__deleteBtn');
   deleteButton.classList.add('js-remove-button');
   favouriteLi.appendChild(deleteButton);
 
@@ -206,21 +234,64 @@ const renderFavouritesFromLocalStorage = () => {
     favouritesObjectList.forEach((favourite) => {
       favouritesList.append(createLiFromFavouriteObject(favourite));
     });
+    counter= favouritesObjectList.length;
+    renderFavouritesCounter();
   }
 };
 
+// Función para resetear el contenido de la búsqueda y los resultados
 const resetSearchAndResults = () => {
   containerResults.innerHTML = '';
 };
 
+// Función para desplegar la sección de favoritos
+const handleClickFavouritesCollapsable = () => {
+  const resultsSection = document.querySelector('.js-seriesResult');
+  favouritesSection.classList.toggle('collapsed');
+  favouritesSection.classList.toggle('favoritesSection');
+  resultsSection.classList.toggle('resultsSectionIfFavouritesOpen');
+  resultsSection.classList.toggle('resultsSection');
+};
+
+//if(favouritesSection.classList.contains('favoritesSection'))
+
+
 
 //                                    LISTENERS                                   //
+// Listener para mostrar el formulario en la versión móvil
+searchIcon.addEventListener('click', () =>{
+  searchInput.classList.toggle('header__form--searchInput');
+  searchInput.classList.toggle('removeHiddenSearchInput');
+  searchBtn.classList.toggle('header__form--btns--btnSearch');
+  searchBtn.classList.toggle('btnsMobile__btnSearchMobile');
+  resetBtn.classList.toggle('header__form--btns--btnReset');
+  resetBtn.classList.toggle('btnsMobile__btnResetMobile');
+});
 
 // Evento click en cada resultado mostrado
 for (let resultEl of containerResults.childNodes) {
   resultEl.addEventListener('click', addFavourite);
 }
 
+// Listener en icono estrella para desplegar sección de favoritos
+for (const star of starIcons){
+  star.addEventListener('click', handleClickFavouritesCollapsable);
+}
+
+
+
+// Listener para resetear favoritos
+const trashIcon = document.querySelector('.js-trashIcon');
+trashIcon.addEventListener('click', () =>{
+  let favouritesListStorage = JSON.parse(getFavouritesFromLocalStorage());
+  favouritesListStorage.forEach(eachFavourite => removeFavouriteToLocalStorage(eachFavourite)); // reutilizo la función de eliminar favoritos y le paso como parámetro cada uno de los favoritos guardados en localStorage
+  favouritesList.innerHTML= ''; // borra todo el contenido de la sección de favoritos (el código)
+  counter= 0; // el contador de favoritos vuelve a 0
+  renderFavouritesCounter();
+});
+
+
+// Listener para resetear input y resultados de búsqueda
 resetBtn.addEventListener('click', resetSearchAndResults);
 
 //                                    START APP                                   //

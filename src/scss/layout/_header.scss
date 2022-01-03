@@ -1,34 +1,231 @@
-.headerWrapper{
-    margin: 30px;
+.headerWrapper {
+  margin: 40px 30px 20px 30px;
 }
 .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__logo {
+    width: 50%;
+    position: absolute;
+    top: 25px;
+    @media (min-width: 768px) {
+      position: relative;
+      top: 0;
+    }
+  }
+
   &__title {
-    font-size: 32px;
+    color: transparent;
+    font-size: 24px;
     margin-bottom: 20px;
+    text-align: center;
+    position: absolute;
+    top: 30px;
+    @media (min-width: 768px) {
+      position: relative;
+      top: 0;
+    }
+  }
+
+  &__starAndSearchWrapper {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    @media (min-width: 768px) {
+      justify-content: flex-start;
+    }
+  }
+
+  &__startIcon {
+    cursor: pointer;
+    position: relative;
+    display: inline;
+    margin-right: 30px;
+    color: rgb(235, 123, 44);
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__startIcon2 {
+    display: none;
+    @media (min-width: 768px) {
+      cursor: pointer;
+      position: relative;
+      display: inline;
+      left: -50px;
+      margin-right: 25px;
+      padding: 3px;
+      color: $mainColor;
+      background-color: rgb(51, 51, 56);
+    }
+    @media (min-width: 1024px) {
+      margin-right: 5rem;
+    }
+  }
+  &__counterParagraph {
+    font-size: 4px;
+    @media (min-width: 768px) {
+      font-size: 6px;
+    }
+    @media (min-width: 1024px) {
+      font-size: 8px;
+    }
+
+    &--counter {
+      position: relative;
+      top: 3px;
+      left: -241px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 0.3px solid $mainColor;
+      color: $mainColor;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 7px;
+      height: 7px;
+      @media (min-width: 768px) {
+        left: -81px;
+        top: 3px;
+        border: 0.3px solid black;
+        background-color: $mainColor;
+        color: black;
+      }
+      @media (min-width: 1024px) {
+        left: -138px;
+        top: 6px;
+        width: 17px;
+        height: 17px;
+      }
+      @media (min-width: 1200px) {
+        // left: -81px;
+        // top: 3px;
+      }
+    }
   }
 
   &__form {
+    // width: 85vw;
     text-align: center;
-    &--searchIcon{
-      position: relative;
-      z-index: 1;
-      left: 25px;
-      color: rgb(235, 123, 44);
-      
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: flex-end;
+    @media (min-width: 768px) {
+      width: 80vw;
+      flex-direction: row;
+      align-items: center;
     }
-    &--searchInput{
+
+    &--searchContainer {
+      display: flex;
+      justify-content: space-between;
+      @media (min-width: 768px) {
+        width: 100%;
+        flex-direction: row-reverse;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    &--searchIcon {
+      // position: relative;
+      // z-index: 1;
+      // top: 2px;
+      position: absolute;
+      z-index: 1;
+      top: 42px;
+      right: 50px;
+      color: $mainColor;
+      cursor: pointer;
+      @media (min-width: 768px) {
+        position: relative;
+        cursor: default;
+        top: 0;
+        left: 25px;
+        // top: -20px;
+      }
+    }
+    &--searchInput {
+      display: none;
+      @media (min-width: 768px) {
+        display: inline;
+        width: 100%;
+        border: 1px transparent;
         border-radius: 50px;
         margin-right: 10px;
         padding: 3px 40px;
-        
-        &::placeholder{
+        background-color: rgb(48, 48, 51);
+        color: white;
+
+        &::placeholder {
           text-align: center;
-            
+          color: rgb(143, 144, 146);
         }
+      }
     }
-    &--btnSearch{
-        border-radius: 5px;
-        padding: 2px;
+
+    &--btns {
+      display: flex;
+      flex-direction: row-reverse;
+      position: relative;
+      top: 53px;
+
+      @media (min-width: 768px) {
+        flex-direction: row;
+        top: 0px;
+      }
+
+      &--btnSearch {
+        display: none;
+
+        @media (min-width: 768px) {
+          position: relative;
+          appearance: inherit;
+          display: inline;
+          text-transform: uppercase;
+          background-color: $mainColor;
+          color: white;
+          border: 1px solid $mainColor;
+          border-radius: 5px;
+          padding: 3px;
+          margin: 0 10px;
+          cursor: pointer;
+          transition: all 0.3s ease-in;
+          &:hover {
+            top: -4px;
+            box-shadow: 1px 1px 4px white;
+          }
+        }
+      }
+      &--btnReset {
+        display: none;
+
+        @media (min-width: 768px) {
+          display: inline;
+          background-color: transparent;
+          color: $mainColor;
+          letter-spacing: 1px;
+          border: 1px solid $mainColor;
+          border-radius: 5px;
+          padding: 2px 3px;
+          margin-left: 1px;
+          cursor: pointer;
+        }
+        &:hover {
+          box-shadow: 1px 1px 4px $mainColor;
+          background-color: white;
+          color: black;
+          font-weight: bold;
+          margin-left: 0;
+        }
+      }
     }
   }
 }
+
