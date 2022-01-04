@@ -1,8 +1,3 @@
-.noSelectSerie {
-  background-color: transparent;
-  color: white;
-}
-
 .selected {
   border: 2px solid $mainColor;
   color: $mainColor;
@@ -55,8 +50,6 @@
   }
   img {
     margin-bottom: 2px;
-    // width: 100%;
-    // height: 100%;
     width: 100px;
     
     @media (min-width: 768px) {
@@ -93,31 +86,50 @@
 
 .removeHiddenSearchInput {
   position: relative;
-  top: 65px;
-  left: 15px;
-  // width: 150px;
-  width: 100%;
+  top: 45px;
+  left: -40px;
+  width: 110px;
   display: flex;
   align-items: center;
   border: 1px transparent;
   border-radius: 50px;
   margin-right: 10px;
-  margin-bottom: 10px;
-  padding: 3px 20px;
+  margin-bottom: 25px;
+  padding: 3px 10px;
   background-color: rgb(48, 48, 51);
   color: white;
 
   &::placeholder {
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
+    padding: 3px 0px 3px 10px;
     color: rgb(143, 144, 146);
+  }
+  @media (min-width: 335px) {
+    left: -20px;
+    width: 125px;
+    margin-bottom: 0;
+  }
+  @media (min-width: 400px) {
+    top: 55px;
+    left: 0px;
+    width: 150px;
+    padding: 3px 20px;
+  }
+ 
+  @media (min-width: 490px) {
+    top: 65px;
+    &::placeholder {
+      font-size: 12px;
+    }
+  }
+  @media (min-width: 590px) {
+    top: 85px;
   }
   @media (min-width: 768px) {
     width: 100%;
     top: 0;
-    left: 0px;
     padding: 3px 40px;
-    margin-bottom: 0px;
     &::placeholder {
       font-size: 12px;
     }
@@ -127,12 +139,11 @@
 .resultsSectionIfFavouritesOpen {
   display: flex;
   flex-direction: column;
-
-  //border: 1px solid rgb(224, 159, 18);
   box-shadow: 2px 2px 8px rgb(80, 79, 79);
   padding: 10px 20px;
   width: 100%;
-  height: 90vh;
+  height: 50vh;
+  margin-top: 5px;
 
   @media (min-width: 768px) {
     height: 65vh;
@@ -141,8 +152,6 @@
     margin-right: 40px;
     padding: 10px;
     padding-right: 2.5rem;
-
-    // margin: 0 50px;
   }
   @media (min-width: 1024px) {
     position: relative;
@@ -150,8 +159,6 @@
     width: 70vw;
     margin: 0;
     margin-right: 40px;
-    // left: -50px;
-    // margin: 0 70px;
   }
   @media (min-width: 1200px) {
     height: 80vh;
@@ -168,6 +175,8 @@
 
   &__btnSearchMobile {
     position: relative;
+    top: -33px;
+    left: -50px;
     height: 50%;
     background-color: $mainColor;
     color: white;
@@ -184,8 +193,22 @@
       box-shadow: 1px 1px 4px white;
       padding: 3px 10px;
     }
+    @media (min-width: 335px) {
+      top: -8px;
+    }
+    @media (min-width: 400px) {
+      top: 2px;
+    }
+    @media (min-width: 490px) {
+      top: 12px;
+    }
+    @media (min-width: 590px) {
+      top: 32px;
+    }
     @media (min-width: 768px) {
       position: relative;
+      top: 0;
+      left: 0;
       height: 100%;
       text-transform: uppercase;
       background-color: $mainColor;
@@ -202,6 +225,9 @@
     }
   }
   &__btnResetMobile {
+    position: relative;
+    top: -33px;
+    left: -50px;
     background-color: transparent;
     color: $mainColor;
     letter-spacing: 1px;
@@ -220,7 +246,23 @@
       font-weight: bold;
       margin-left: 0;
     }
+    @media (min-width: 335px) {
+      top: -8px;
+    }
+
+    @media (min-width: 400px) {
+      top: 2px;
+      
+    }
+    @media (min-width: 490px) {
+      top: 12px;
+    }
+    @media (min-width: 590px) {
+      top: 32px;
+    }
     @media (min-width: 768px) {
+      top: 0;
+      left: 0;
       background-color: transparent;
       color: $mainColor;
       font-size: 12px;

@@ -10,9 +10,16 @@
     width: 50%;
     position: absolute;
     top: 25px;
+    @media (min-width: 568px) {
+      top: 20px;
+    }
     @media (min-width: 768px) {
+      width: 40%;
       position: relative;
       top: 0;
+    }
+    @media (min-width: 1200px) {
+      width: 35%;
     }
   }
 
@@ -35,12 +42,20 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    @media (min-width: 568px) {
+      padding: 10px 20px;
+    }
     @media (min-width: 768px) {
       justify-content: flex-start;
     }
   }
 
-  &__startIcon {
+  .starAndCounterContainer{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &__starIcon {
     cursor: pointer;
     position: relative;
     display: inline;
@@ -52,7 +67,7 @@
     }
   }
 
-  &__startIcon2 {
+  &__starIcon2 {
     display: none;
     @media (min-width: 768px) {
       cursor: pointer;
@@ -79,48 +94,52 @@
 
     &--counter {
       position: relative;
-      top: 3px;
-      left: -241px;
+      top: 7px;
+      left: -35px;
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 0.3px solid $mainColor;
-      color: $mainColor;
+      background-color: red;
+      color: white;
       font-weight: bold;
       border-radius: 50%;
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       @media (min-width: 768px) {
         left: -81px;
-        top: 3px;
-        border: 0.3px solid black;
-        background-color: $mainColor;
-        color: black;
+        top: 8px;
+        width: 14px;
+        height: 14px;
       }
       @media (min-width: 1024px) {
         left: -138px;
-        top: 6px;
+        top: 9px;
         width: 17px;
         height: 17px;
-      }
-      @media (min-width: 1200px) {
-        // left: -81px;
-        // top: 3px;
       }
     }
   }
 
   &__form {
-    // width: 85vw;
     text-align: center;
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-start;
     align-items: flex-end;
+    margin-bottom: 20px;
+
+    @media (min-width: 490px) {
+      margin-bottom: 30px;
+    }
+    @media (min-width: 590px) {
+      margin-bottom: 50px;
+    }
     @media (min-width: 768px) {
       width: 80vw;
       flex-direction: row;
       align-items: center;
+      margin-top: 15px;
+      margin-bottom: 10px;
     }
 
     &--searchContainer {
@@ -134,21 +153,21 @@
       }
     }
     &--searchIcon {
-      // position: relative;
-      // z-index: 1;
-      // top: 2px;
       position: absolute;
       z-index: 1;
       top: 42px;
       right: 50px;
       color: $mainColor;
       cursor: pointer;
+      @media (min-width: 568px) {
+        top: 52px;
+      }
+
       @media (min-width: 768px) {
         position: relative;
         cursor: default;
         top: 0;
         left: 25px;
-        // top: -20px;
       }
     }
     &--searchInput {

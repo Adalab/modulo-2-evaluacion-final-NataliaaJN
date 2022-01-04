@@ -9,20 +9,14 @@
     flex-direction: row-reverse;
     justify-content: space-between;
   }
-  // @media (min-width: 1024px) {    
-  //   justify-content: space-between;
-  // }
 
   .resultsSection {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    
-    //border: 1px solid rgb(224, 159, 18);
     padding: 10px 20px;
     margin-top: 20px;
-
 
     @media (min-width: 768px) {
       height: 65vh;
@@ -42,8 +36,6 @@
       letter-spacing: 4px;
       font-size: 14px;
       text-align: center;
-      margin-bottom: 15px;
-      margin-top: 30px;
 
       @media (min-width: 768px) {
         margin: 0 0 0 30px;
@@ -72,9 +64,7 @@
         flex-wrap: wrap;
         grid-template-columns: repeat(50, 1fr);
         background-color: rgb(25, 25, 27);
-        // padding: 5px 10px;
         margin-top: 10px;
-        // margin-left: 5px;
         overflow-y: hidden;
         overflow-x: scroll;
         scrollbar-width: none;
@@ -117,25 +107,21 @@
           }
 
           @media (min-width: 768px) {
-            // width: 100%;
             height: 75%;
             align-items: center;
             overflow-y: scroll;
-            // padding: 10px;
             padding: 10px 20px 5px 20px;
           }
           @media (min-width: 1024px) {
             height: 100%;
             align-items: center;
             overflow-y: scroll;
-            // padding: 10px;
             padding: 10px 20px 5px 20px;
           }
           @media (min-width: 1200px) {
             height: 285px;
             align-items: center;
             overflow-y: scroll;
-            // padding: 10px;
             padding: 10px 20px 5px 20px;
             margin-bottom: -8px;
           }
@@ -175,8 +161,6 @@
   }
 
   .favoritesSection {
-    //border: 1px solid rgba(212, 170, 77, 0.911);
-    // background-color: rgba(212, 170, 77, 0.911);
     height: 45vh;
     box-shadow: 1px 1px 4px $mainColor;
     margin-top: 20px;
@@ -217,7 +201,6 @@
         letter-spacing: 8px;
         font-size: 30px;
         box-shadow: 2px 1px 4px $mainColor;
-        // border-top-left-radius: 5px;
         border-top-right-radius: 3px;
         padding-top: 6px;
         padding-left: 0;
@@ -226,28 +209,15 @@
         cursor: pointer;
         position: absolute;
         right: 20px;
-        // margin-left: 25px;
         @media(min-width: 768px){
-          // position: relative;
           left: 220px;
-          // left: -210px;
-          // top: 10px;
           right: 0;
           display: flex;
           justify-content: center;
           align-items: center;
           font-size: 15px;
-          // background-color: black;
-          // color: white;
-          // width: 20px;
-          // height: 20px;
-          // border-radius: 50%;
-          // padding: 0;
-          // margin: 0%;
           margin-left: 8px;
           margin-right: 0;
-          // height: 10px;
-          // width: 10px;
         }
       }
     }

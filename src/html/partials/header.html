@@ -1,10 +1,12 @@
 <header class="header headerWrapper">
   <img class="header__logo" src="./assets/images/AnimeNet.png" alt="Logo AnimeNet">
-  <h1 class="header__title">Buscador de series anime</h1>
+  <h1 class="header__title hidden">Buscador de series anime</h1>
   <section class="header__starAndSearchWrapper">
-    <i class="header__startIcon far fa-star js-starIcon"></i>
-    <i class="header__startIcon2 fas fa-star js-starIcon"></i>
-    <p class="header__counterParagraph"><span class="header__counterParagraph--counter js-counter">0</span></p>
+    <div class="starAndCounterContainer">
+      <i class="header__starIcon far fa-star js-starIcon"></i>
+      <i class="header__starIcon2 fas fa-star js-starIcon"></i>
+      <p class="header__counterParagraph"><span class="header__counterParagraph--counter js-counter">0</span></p>
+    </div>
     <form class="header__form js-form">
       <div class="header__form--searchContainer">
         <input class="header__form--searchInput  js-searchInput" type="search" placeholder="Busca una serie" required>
