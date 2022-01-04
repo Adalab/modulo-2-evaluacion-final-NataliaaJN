@@ -31,7 +31,7 @@ const renderResults = (htmlElement, results) => {
   for (const eachResult of results) {
     let indexOfFavourite= false;
     if(favouritesFromLocalStorage!==null){
-     indexOfFavourite= favouritesFromLocalStorage.findIndex(favourite=> parseInt(favourite.id) === eachResult.mal_id);
+      indexOfFavourite= favouritesFromLocalStorage.findIndex(favourite=> parseInt(favourite.id) === eachResult.mal_id);
     }
     resultsCode += getResultsHtmlCode(eachResult, indexOfFavourite !== -1); // le paso el nuevo código que se tiene que generar
   }
@@ -51,7 +51,7 @@ searchBtn.addEventListener('click', function (event) {
   event.preventDefault();
   const searchTerm = searchInput.value;
   if (searchTerm.length >= 3) {
-    
+
     listResults.classList.add('resultsSection__containerResult--seriesList');
     listResults.classList.add('js-resultsList');
     containerResults.innerHTML = '';

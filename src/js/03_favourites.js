@@ -62,7 +62,6 @@ const removeFavouriteToLocalStorage = (favouriteToRemove) => {
 // Función para eliminar favoritos:
 
 const removeFavourite = (liHtml) => {
-  debugger;
   const favouriteListChild = Array.from(favouritesList.childNodes).find(
     (favourite) => favourite.id === liHtml.id
   );
