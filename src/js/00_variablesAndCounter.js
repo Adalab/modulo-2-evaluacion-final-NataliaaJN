@@ -15,11 +15,12 @@ const starIcons = document.querySelectorAll('.js-starIcon');             // Icon
 const favouritesList = document.querySelector('.js-favouritesList');     // ul que contiene la lista de resultados
 
 const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;               // url de búsqueda de la api
-
+const listResults = document.createElement('ul');
 
 //                            VARIABLES GLOBALES                                 //
 let favourites = []; // array para los favoritos
 let counter= 0;
+let results= [];
 
 //                                FUNCIONES                                      //
 

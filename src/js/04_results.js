@@ -25,10 +25,13 @@ const getResultsHtmlCode = (eachResult, isFavourite) => {
 // Función para pintar los resultados
 const renderResults = (htmlElement, results) => {
   let resultsCode = '';
+  htmlElement.innerHTML='';
   const favouritesFromLocalStorage= JSON.parse(getFavouritesFromLocalStorage());
+  console.log(favouritesFromLocalStorage);
   // para cada resultado del array
   for (const eachResult of results) {
     const indexOfFavourite= favouritesFromLocalStorage.findIndex(favourite=> parseInt(favourite.id) === eachResult.mal_id);
+    console.log(indexOfFavourite);
     resultsCode += getResultsHtmlCode(eachResult, indexOfFavourite !== -1); // le paso el nuevo código que se tiene que generar
   }
   htmlElement.innerHTML += resultsCode;
@@ -47,13 +50,14 @@ searchBtn.addEventListener('click', function (event) {
   event.preventDefault();
   const searchTerm = searchInput.value;
   if (searchTerm.length >= 3) {
-    const listResults = document.createElement('ul');
+    
     listResults.classList.add('resultsSection__containerResult--seriesList');
     listResults.classList.add('js-resultsList');
     containerResults.innerHTML = '';
 
     getApiData(searchTerm)
-      .then((results) => {
+      .then((liResults) => {
+        results= liResults;
         renderResults(listResults, results);
         containerResults.appendChild(listResults);
       })
