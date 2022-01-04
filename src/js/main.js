@@ -76,7 +76,6 @@ const getApiData = (searchInputValue) => {
   return fetch(`${urlApi}${searchInputValue}`)
     .then((response) => response.json())
     .then((data) => data.results);
-  // .catch(error=> console.warn(error.message));
 };
 
 
