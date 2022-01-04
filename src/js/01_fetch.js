@@ -1,4 +1,5 @@
 'use strict';
+
 //               COGER DATOS DEL API           //
 const getApiData = (searchInputValue) => {
   return fetch(`${urlApi}${searchInputValue}`)

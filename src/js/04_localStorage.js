@@ -37,7 +37,7 @@ const renderFavouritesFromLocalStorage = () => {
     favouritesObjectList.forEach((favourite) => {
       favouritesList.append(createLiFromFavouriteObject(favourite));
     });
-    counter= favouritesObjectList.length;
+    counter = favouritesObjectList.length;
     renderFavouritesCounter();
   }
 };
