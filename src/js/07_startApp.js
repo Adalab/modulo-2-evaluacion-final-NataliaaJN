@@ -1,0 +1,2 @@
+//                                    START APP                                   //
+renderFavouritesFromLocalStorage();
