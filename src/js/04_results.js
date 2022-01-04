@@ -29,7 +29,10 @@ const renderResults = (htmlElement, results) => {
   const favouritesFromLocalStorage= JSON.parse(getFavouritesFromLocalStorage());
   // para cada resultado del array
   for (const eachResult of results) {
-    const indexOfFavourite= favouritesFromLocalStorage.findIndex(favourite=> parseInt(favourite.id) === eachResult.mal_id);
+    let indexOfFavourite= false;
+    if(favouritesFromLocalStorage!==null){
+     indexOfFavourite= favouritesFromLocalStorage.findIndex(favourite=> parseInt(favourite.id) === eachResult.mal_id);
+    }
     resultsCode += getResultsHtmlCode(eachResult, indexOfFavourite !== -1); // le paso el nuevo código que se tiene que generar
   }
   htmlElement.innerHTML += resultsCode;
