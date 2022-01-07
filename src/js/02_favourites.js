@@ -93,6 +93,9 @@ const addFavourite = (liHtml) => {
   const clonedLiHtml = liHtml.cloneNode(true); // Clono el resultado (elemento li) creado al hacer una búsqueda
   clonedLiHtml.classList.add('clonedLiHtmlStyle');
 
+  //Como no quiero que se clone el nuevo párrafo 'recommended' de resultados:
+  clonedLiHtml.removeChild(clonedLiHtml.childNodes[clonedLiHtml.childNodes.length-1]);
+  
   const deleteButton = document.createElement('button');
   deleteButton.innerHTML += `<i class="deleteBtn__crossIcon far fa-times-circle"></i>`;
   const deleteBtn = clonedLiHtml.appendChild(deleteButton);

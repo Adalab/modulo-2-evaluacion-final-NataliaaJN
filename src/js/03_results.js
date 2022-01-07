@@ -23,9 +23,7 @@ const getResultsHtmlCode = (eachResult, isFavourite) => {
                           <div class= 'liResult__imgContainer'>
                             <img class= 'liResult__imgContainer--img' src='${eachResult.image_url}' title='${eachResult.title}' alt='${eachResult.title}'>
                           </div>
-                          <h3>${eachResult.title}</h3>
-                          <p class= 'paragraph'>${recommended}</p>
-                      </li>`;
+                          <h3>${eachResult.title}</h3><p class= 'paragraph'>${recommended}</p></li>`;
   }
   
   return resultHtmlCode;
