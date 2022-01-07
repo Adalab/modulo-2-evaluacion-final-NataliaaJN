@@ -5,6 +5,12 @@
 // Función para generar el código HTML que debe aparecer para cada resultado
 const getResultsHtmlCode = (eachResult, isFavourite) => {
   let resultHtmlCode = '';
+  let recommended= '';
+  if(eachResult.score>7){
+    recommended= 'Recomendado';
+    }else {
+      recommended= '';
+    }
   if (eachResult.image_url === null) {
     resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'liResult js-newLiElement ${isFavourite ? ' selected' : ''}'>
                             <div class= 'liResult__imgContainer'>
@@ -18,8 +24,10 @@ const getResultsHtmlCode = (eachResult, isFavourite) => {
                             <img class= 'liResult__imgContainer--img' src='${eachResult.image_url}' title='${eachResult.title}' alt='${eachResult.title}'>
                           </div>
                           <h3>${eachResult.title}</h3>
+                          <p class= 'paragraph'>${recommended}</p>
                       </li>`;
   }
+  
   return resultHtmlCode;
 };
 
