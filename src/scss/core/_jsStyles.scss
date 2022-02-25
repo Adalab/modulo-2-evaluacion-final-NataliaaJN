@@ -30,7 +30,8 @@
 
 .clonedLiHtmlStyle {
   width: 100px;
-  height: 195px;
+  // height: 195px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -51,6 +52,7 @@
   img {
     margin-bottom: 2px;
     width: 100px;
+    height: 155px;
     
     @media (min-width: 768px) {
       height: 120px;
@@ -146,22 +148,24 @@
   margin-top: 5px;
 
   @media (min-width: 768px) {
-    height: 65vh;
     width: 60vw;
-    height: 80vh;
+    // height: 80vh;
+    height: 100%;
     margin-right: 40px;
     padding: 10px;
     padding-right: 2.5rem;
+    margin: 0 20px 40px 20px;
   }
   @media (min-width: 1024px) {
     position: relative;
-    height: 70vh;
+    // height: 70vh;
     width: 70vw;
     margin: 0;
-    margin-right: 40px;
+    // margin-right: 40px;
+    margin: 0 40px 40px 0;
   }
   @media (min-width: 1200px) {
-    height: 80vh;
+    // height: 80vh;
     width: 75vw;
     padding-right: 3.5rem;
   }
