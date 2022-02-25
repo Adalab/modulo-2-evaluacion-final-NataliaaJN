@@ -30,7 +30,6 @@
 
 .clonedLiHtmlStyle {
   width: 100px;
-  // height: 195px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -39,7 +38,7 @@
   color: white;
   border: 0px;
   margin-right: 15px;
-  
+
   @media (min-width: 768px) {
     flex-direction: row;
     width: 100%;
@@ -53,7 +52,7 @@
     margin-bottom: 2px;
     width: 100px;
     height: 155px;
-    
+
     @media (min-width: 768px) {
       height: 120px;
       width: 88px;
@@ -118,7 +117,7 @@
     width: 150px;
     padding: 3px 20px;
   }
- 
+
   @media (min-width: 490px) {
     top: 65px;
     &::placeholder {
@@ -149,7 +148,6 @@
 
   @media (min-width: 768px) {
     width: 60vw;
-    // height: 80vh;
     height: 100%;
     margin-right: 40px;
     padding: 10px;
@@ -158,19 +156,15 @@
   }
   @media (min-width: 1024px) {
     position: relative;
-    // height: 70vh;
     width: 70vw;
     margin: 0;
-    // margin-right: 40px;
     margin: 0 40px 40px 0;
   }
   @media (min-width: 1200px) {
-    // height: 80vh;
     width: 75vw;
     padding-right: 3.5rem;
   }
 }
-
 
 // Cambios en versión móvil
 // Botones
@@ -256,7 +250,6 @@
 
     @media (min-width: 400px) {
       top: 2px;
-      
     }
     @media (min-width: 490px) {
       top: 12px;
