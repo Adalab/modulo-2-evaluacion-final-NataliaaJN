@@ -61,7 +61,7 @@
         display: grid;
         flex-wrap: wrap;
         grid-template-columns: repeat(50, 1fr);
-        background-color: rgb(25, 25, 27);
+        background-color: $secondaryColor;
         margin-top: 10px;
         overflow-y: hidden;
         overflow-x: scroll;
@@ -183,7 +183,7 @@
       justify-content: center;
       align-items: center;
       background-color: $mainColor;
-      color: rgb(25, 25, 27);
+      color: $secondaryColor;
       font-family: "Bangers", cursive;
       text-transform: uppercase;
       letter-spacing: 4px;
@@ -223,7 +223,7 @@
       width: 95%;
       display: flex;
       align-items: center;
-      background-color: rgb(25, 25, 27);
+      background-color: $secondaryColor;
       padding: 5px 10px;
       margin-top: 40px;
       margin-left: 10px;

@@ -14,7 +14,7 @@ const favouritesCounter = document.querySelector('.js-counter');         // Núm
 const starIcons = document.querySelectorAll('.js-starIcon');             // Icono de estrella
 const favouritesList = document.querySelector('.js-favouritesList');     // ul que contiene la lista de resultados
 
-const urlApi = `https://api.jikan.moe/v3/search/anime?q=`;               // url de búsqueda de la api
+const urlApi = `https://api.jikan.moe/v4/anime?q=`;               // url de búsqueda de la api
 
 
 //                            VARIABLES GLOBALES                                 //

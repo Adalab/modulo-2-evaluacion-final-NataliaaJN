@@ -11,7 +11,7 @@ const getResultsHtmlCode = (eachResult, isFavourite) => {
     }else {
       recommended= '';
     }
-  if (eachResult.image_url === null) {
+  if (eachResult.images.webp.image_url === null) {
     resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'liResult js-newLiElement ${isFavourite ? ' selected' : ''}'>
                             <div class= 'liResult__imgContainer'>
                               <img class= 'liResult__imgContainer--img' src='https://via.placeholder.com/210x295/ffffff/666666/?text=${eachResult.title}' title='${eachResult.title}' alt='${eachResult.title}'>
@@ -21,7 +21,7 @@ const getResultsHtmlCode = (eachResult, isFavourite) => {
   } else {
     resultHtmlCode += `<li id= "${eachResult.mal_id}" class= 'liResult js-newLiElement${isFavourite ? ' selected' : ''}'>
                           <div class= 'liResult__imgContainer'>
-                            <img class= 'liResult__imgContainer--img' src='${eachResult.image_url}' title='${eachResult.title}' alt='${eachResult.title}'>
+                            <img class= 'liResult__imgContainer--img' src='${eachResult.images.webp.image_url}' title='${eachResult.title}' alt='${eachResult.title}'>
                           </div>
                           <h3>${eachResult.title}</h3><p class= 'paragraph'>${recommended}</p></li>`;
   }
